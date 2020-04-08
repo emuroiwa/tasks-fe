@@ -100,6 +100,16 @@ export const store = new Vuex.Store({
           console.log(error)
         })
     },
+    tick(context) {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
+
+      axios.get('/tick')
+        .then(response => {
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
 
   }
 })

@@ -1,20 +1,24 @@
 <template>
-  <div class="form-group">
+  <div class="tasks-container">
     <form action="#" @submit.prevent="login">
 
       <div v-if="successMessage" class="alert alert-success" role="alert">{{ successMessage }}</div>
-      <div v-if="serverError" class="alert alert-danger" role="alert">Error !! {{ serverError.error }}</div>
+      <div v-if="serverError" class="alert alert-danger" role="alert">Error !!
+        <div v-for="(value, key) in serverError" :key="key">
+          {{ value[0] }}
+        </div>
+      </div>
 
       <div class="form-group">
         <label for="email">Email address</label>
-        <input type="email" class="form-control" id="email" v-model="email">
+        <input type="email" class="form-control" id="email" v-model="email" required>
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" v-model="password">
+        <input type="password" class="form-control" id="password" v-model="password" required>
       </div>
 
-      <button type="submit" class="btn btn-outline-primary btn-lg btn-block">
+      <button type="submit" class="btn btn-outline-primary">
         Login
       </button>
     </form>
@@ -48,7 +52,7 @@ export default {
           this.$router.push({ name: 'task' })
         })
         .catch(error => {
-          this.serverError = error.response.data
+          this.serverError = Object.values(error.response.data.error)
           this.password = ''
           this.successMessage = ''
         })
@@ -56,4 +60,12 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.tasks-container {
+  margin-top: 10px;
+  margin-right: auto;
+  margin-left: auto; 
+  width: 50%;
+}
+</style>
 
